@@ -1,0 +1,11 @@
+<launch>
+	<arg name="source_clicked"		default="true"/>
+	<arg name="source_pose"		default="false"/>
+	<arg name="filename"    default="$(find waypoint_touring)/data/waypoints.yaml"/>
+
+	<node pkg="waypoint_generator" name="waypoint_generator" type="generator.py">
+	  <param name="filename"	value="$(arg filename)"/>
+	  <param name="source_clicked"		value="$(arg source_clicked)"/>
+	  <param name="source_pose"		value="$(arg source_pose)"/>
+	</node>
+</launch>

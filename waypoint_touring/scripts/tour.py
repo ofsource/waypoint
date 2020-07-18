@@ -15,7 +15,7 @@ class TourMachine(object):
 
         action_name = 'move_base'
         self._ac_move_base = actionlib.SimpleActionClient(action_name, move_base_msgs.MoveBaseAction)
-        rospy.loginfo('Wait for %s server' % action_name)
+        rospy.logwarn('Wait for %s server' % action_name)
         self._ac_move_base.wait_for_server
         self._counter = 0
         self._repeat = repeat
@@ -56,10 +56,12 @@ class TourMachine(object):
 
     def spin(self):
         rospy.sleep(1.0)
+	rospy.logwarn('begin to spin')
         self._pub_viz_marker.publish(self._viz_markers)
         finished = False
         while not rospy.is_shutdown() and not finished:
             finished = self.move_to_next()
+	    rospy.logwarn('move to next')
             rospy.sleep(2.0)
 
 if __name__ == '__main__':

@@ -1,7 +1,7 @@
 <launch>
 	<arg name="repeat"		default="true"/>
 	<arg name="random"		default="false"/>
-	<arg name="filename"    default="$(find waypoint_touring)/data/example.yaml"/>
+	<arg name="filename"    default="$(find waypoint_touring)/data/out1.yaml"/>
 
 	<node pkg="waypoint_touring" name="waypoint_touring" type="tour.py">
 	  <param name="filename"	value="$(arg filename)"/>

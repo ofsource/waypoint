@@ -7,22 +7,24 @@ import geometry_msgs.msg as geometry_msgs
 class WaypointGenerator(object):
 
     def __init__(self, filename):
-        self._sub_pose = rospy.Subscriber('clicked_point', geometry_msgs.PointStamped, self._process_pose, queue_size=1)
+        #self._sub_pose = rospy.Subscriber('clicked_point', geometry_msgs.PointStamped, self._process_pose, queue_size=1)
+        self._sub_pose = rospy.Subscriber('move_base_simple/goal', geometry_msgs.PoseStamped, self._process_pose, queue_size=1)
         self._waypoints = []
         self._filename = filename
 
     def _process_pose(self, msg):
-        p = msg.point
+        #p = msg.point
+        p = msg.pose
 
         data = {}
         data['frame_id'] = msg.header.frame_id
         data['pose'] = {}
-        data['pose']['position'] = {'x': p.x, 'y': p.y, 'z': 0.0}
-        data['pose']['orientation'] = {'x': 0, 'y': 0, 'z': 0, 'w':1}
-        data['name'] = '%s_%s' % (p.x, p.y)
+        data['pose']['position'] = {'x': p.position.x, 'y': p.position.y, 'z': 0.0}
+        data['pose']['orientation'] = {'x': p.orientation.x, 'y': p.orientation.y, 'z': p.orientation.z, 'w':p.orientation.w}
+        data['name'] = '%s_%s' % (p.position.x, p.position.y)
 
         self._waypoints.append(data)
-        rospy.loginfo("Clicked : (%s, %s, %s)" % (p.x, p.y, p.z))
+        rospy.loginfo("Clicked : (%s, %s, %s)" % (p.position.x, p.position.y, p.position.z))
 
     def _write_file(self):
         ways = {}
